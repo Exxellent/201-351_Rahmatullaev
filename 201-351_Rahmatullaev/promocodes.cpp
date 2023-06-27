@@ -27,16 +27,15 @@ QString promocodes::generateRandomString(int length)
     randomString.reserve(length);
 
     for (int i = 0; i < length; ++i) {
-        // Генерируем случайное число от 0 до 36
         int randomValue = QRandomGenerator::global()->bounded(36);
-        // Преобразуем случайное число в символ
+
         QChar randomChar;
         if (randomValue < 10) {
             randomChar = QChar('0' + randomValue); // цифры 0-9
         } else {
             randomChar = QChar('A' + (randomValue - 10)); // буквы A-Z
         }
-        // Добавляем символ к строке
+
         randomString.append(randomChar);
     }
     return randomString;
@@ -51,10 +50,9 @@ void promocodes::initPromo() {
 
 
 void promocodes::addpromo() {
-    auto promo = generateRandomString(4);  // Генерация случайного промокода
-
-    promos.append(promo);  // Добавление зашифрованного промокода в список `promos`
-    addCard(promo);  // Добавление карточки с промокодом в список `listWidget`
+    auto promo = generateRandomString(4);
+    promos.append(promo);
+    addCard(promo);
 }
 
 void promocodes::addCard(QString promo) {
@@ -63,26 +61,27 @@ void promocodes::addCard(QString promo) {
 
     listItemW->setSizeHint(itemW->sizeHint());  // Установка размера элемента списка на основе размера виджета карточки
 
-    ui->listWidget->addItem(listItemW);  // Добавление элемента списка в `listWidget`
-    ui->listWidget->setItemWidget(listItemW, itemW);  // Установка виджета карточки для элемента списка
+    ui->listWidget->addItem(listItemW);
+    ui->listWidget->setItemWidget(listItemW, itemW);
 }
 
 void promocodes::on_pushButton_clicked() {
     while (true) {
-        auto randomIndex = QRandomGenerator::global()->bounded(uint(0), fieldSize);  // Генерация случайного индекса
+        auto randomIndex = QRandomGenerator::global()->bounded(uint(0), fieldSize);
 
-        if (openedPromos.contains(randomIndex)) continue;  // Если промокод с данным индексом уже открыт, перейти к следующей итерации цикла
+        if (openedPromos.contains(randomIndex)) continue;
 
-        auto item = ui->listWidget->item(randomIndex);  // Получение элемента списка с соответствующим индексом
-        auto itemWidget = dynamic_cast<CardWidget*>(ui->listWidget->itemWidget(item));  // Получение виджета карточки из элемента списка
+        auto item = ui->listWidget->item(randomIndex);
+        auto itemWidget = dynamic_cast<CardWidget*>(ui->listWidget->itemWidget(item));
 
-        itemWidget->showPromo();  // Показать промокод на карточке
-        openedPromos.append(randomIndex);  // Добавить индекс в список открытых промокодов
-        fieldSize++;  // Увеличить размер поля промокодов
+        itemWidget->showPromo();
+        openedPromos.append(randomIndex);
 
-        addpromo();  // Добавить новый промокод
+        fieldSize++;
 
-        break;  // Прервать цикл
+        addpromo();
+
+        break;
     }
 }
 
