@@ -18,7 +18,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::check_pin(QString pinCode)
 {
-    QString goodpass = "123";
+    QString goodpass = "1234";
     return pinCode == goodpass;
 }
 
